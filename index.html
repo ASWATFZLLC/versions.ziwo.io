@@ -24,14 +24,15 @@
     <div class="logo"><img src="https://www.ziwo.io/assets/footer/english-logo.svg" alt="Ziwo" onerror="this.style.display='none'"><p class="tagline">Simply, Talk to Your Clients</p></div>
     <h1>Version Manifest</h1>
     <p>Machine-readable app version requirements for Ziwo clients.</p>
-    <p>Endpoints: <a href="/json"><code>GET /json</code></a> · <a href="/xml"><code>GET /xml</code></a></p>
+    <p>All apps: <a href="/all.json"><code>all.json</code></a> · <a href="/all.xml"><code>all.xml</code></a></p>
+    <p>Per app: <a href="/mobile.json"><code>mobile.json</code></a> · <a href="/mobile.xml"><code>mobile.xml</code></a></p>
     <table id="versions" hidden>
       <thead><tr><th>App</th><th>Minimum</th><th>Latest</th></tr></thead>
       <tbody></tbody>
     </table>
   </div>
   <script>
-    fetch('/json').then(r => r.json()).then(data => {
+    fetch('/all.json').then(r => r.json()).then(data => {
       const tbody = document.querySelector('#versions tbody');
       for (const [app, v] of Object.entries(data)) {
         const row = tbody.insertRow();
