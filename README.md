@@ -17,18 +17,31 @@ Example — `GET /mobile.json`:
 
 ```json
 {
-  "minimum": "1.5.0",
-  "latest": "3.0.0"
-}
+    "android": {
+      "minimum": "1.5.0",
+      "latest": "3.0.0"
+    },
+    "ios": {
+      "minimum": "1.5.0",
+      "latest": "3.0.0"
+    }
+  }
 ```
 
 Example — `GET /all.json`:
 
 ```json
 {
+  "schema_version": "1.0.0",
   "mobile": {
-    "minimum": "1.5.0",
-    "latest": "3.0.0"
+    "android": {
+      "minimum": "1.5.0",
+      "latest": "3.0.0"
+    },
+    "ios": {
+      "minimum": "1.5.0",
+      "latest": "3.0.0"
+    }
   }
 }
 ```
@@ -55,7 +68,17 @@ Add a key to `versions.json`:
 
 ```json
 {
-  "mobile": { "minimum": "1.5.0", "latest": "3.0.0" },
+  "schema_version": "1.0.0",
+  "mobile": {
+    "android": {
+      "minimum": "1.5.0",
+      "latest": "3.0.0"
+    },
+    "ios": {
+      "minimum": "1.5.0",
+      "latest": "3.0.0"
+    }
+  },
   "desktop": { "minimum": "1.0.0", "latest": "1.0.0" }
 }
 ```
@@ -74,5 +97,3 @@ node build.js   # writes _site/, fails on malformed versions
 - Custom domain `versions.ziwo.io` set in Pages settings; DNS is a CNAME record `versions` → `aswatfzllc.github.io`.
 - `404.html` serves a branded page for unknown paths.
 - Content types come from file extensions — GitHub Pages offers no header control, so manifests must keep their `.json`/`.xml` extensions.
-
-Maintained by the Infrastructure Team.
