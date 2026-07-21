@@ -17,7 +17,7 @@ for (const [app, v] of Object.entries(all)) {
 
   if (app === 'mobile') {
     validateVersion(app, ' (android)', v.android);
-    validateVersion(app, ' (iOS)', v.iOS);
+    validateVersion(app, ' (ios)', v.ios);
   } else {
     validateVersion(app, '', v);
   }
