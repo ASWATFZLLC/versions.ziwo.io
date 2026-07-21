@@ -17,18 +17,31 @@ Example — `GET /mobile.json`:
 
 ```json
 {
-  "minimum": "1.5.0",
-  "latest": "3.0.0"
-}
+    "android": {
+      "minimum": "1.5.0",
+      "latest": "3.0.0"
+    },
+    "ios": {
+      "minimum": "1.5.0",
+      "latest": "3.0.0"
+    }
+  }
 ```
 
 Example — `GET /all.json`:
 
 ```json
 {
+  "schema_version": "1.0.0",
   "mobile": {
-    "minimum": "1.5.0",
-    "latest": "3.0.0"
+    "android": {
+      "minimum": "1.5.0",
+      "latest": "3.0.0"
+    },
+    "ios": {
+      "minimum": "1.5.0",
+      "latest": "3.0.0"
+    }
   }
 }
 ```
@@ -55,7 +68,17 @@ Add a key to `versions.json`:
 
 ```json
 {
-  "mobile": { "minimum": "1.5.0", "latest": "3.0.0" },
+  "schema_version": "1.0.0",
+  "mobile": {
+    "android": {
+      "minimum": "1.5.0",
+      "latest": "3.0.0"
+    },
+    "ios": {
+      "minimum": "1.5.0",
+      "latest": "3.0.0"
+    }
+  },
   "desktop": { "minimum": "1.0.0", "latest": "1.0.0" }
 }
 ```
