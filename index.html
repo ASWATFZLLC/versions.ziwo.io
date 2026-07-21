@@ -1,3 +1,46 @@
-<!doctype html>
-<title>ziwo versions</title>
-<p>Version manifest: <a href="/json">/json</a></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ziwo Version Manifest</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; background: #071b2a; color: #e0e0e0; }
+    .container { text-align: center; padding: 2rem; max-width: 40rem; }
+    .logo { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .logo img { height: 50px; }
+    .tagline { font-size: 1rem; color: #a0b0c0; margin-top: 0.5rem; }
+    h1 { font-size: 2rem; margin: 0 0 0.5rem; }
+    p { font-size: 1.1rem; color: #a0b0c0; }
+    a { color: #4dabf7; }
+    code { background: rgba(255,255,255,0.08); padding: 0.15rem 0.4rem; border-radius: 4px; }
+    table { margin: 1.5rem auto 0; border-collapse: collapse; }
+    th, td { padding: 0.5rem 1.25rem; border: 1px solid rgba(255,255,255,0.1); }
+    th { color: #a0b0c0; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo"><img src="https://www.ziwo.io/assets/footer/english-logo.svg" alt="Ziwo" onerror="this.style.display='none'"><p class="tagline">Simply, Talk to Your Clients</p></div>
+    <h1>Version Manifest</h1>
+    <p>Machine-readable app version requirements for Ziwo clients.</p>
+    <p>Endpoints: <a href="/json"><code>GET /json</code></a> · <a href="/xml"><code>GET /xml</code></a></p>
+    <table id="versions" hidden>
+      <thead><tr><th>App</th><th>Minimum</th><th>Latest</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <script>
+    fetch('/json').then(r => r.json()).then(data => {
+      const tbody = document.querySelector('#versions tbody');
+      for (const [app, v] of Object.entries(data)) {
+        const row = tbody.insertRow();
+        row.insertCell().textContent = app;
+        row.insertCell().textContent = v.minimum;
+        row.insertCell().textContent = v.latest;
+      }
+      document.getElementById('versions').hidden = false;
+    }).catch(() => {});
+  </script>
+</body>
+</html>
