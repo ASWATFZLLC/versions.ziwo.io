@@ -37,9 +37,11 @@ Example — `GET /all.json`:
 
 ## Updating versions
 
-1. Edit the four manifest files and keep them in sync: `mobile.json`, `mobile.xml`, `all.json`, `all.xml`.
+**`all.json` is the single source of truth.** Everything else (`<app>.json`, `<app>.xml`, `all.xml`) is generated from it by `build.js` at deploy time.
+
+1. Edit `all.json` only.
 2. Commit to `main` (directly or via PR).
-3. GitHub Pages redeploys automatically; changes are live in about a minute.
+3. The `Build and deploy manifests` workflow regenerates and publishes the site; live in about a minute.
 
 Verify:
 
@@ -49,15 +51,27 @@ curl -s https://versions.ziwo.io/mobile.json | jq .
 
 ## Adding a new app
 
-1. Create `<app>.json` and `<app>.xml` (copy the mobile files).
-2. Add the app as a key in `all.json` and a node in `all.xml`.
-3. Add links on `index.html`. The landing-page table picks up new `all.json` keys automatically.
+Add a key to `all.json`:
+
+```json
+{
+  "mobile": { "minimum": "1.5.0", "latest": "3.0.0" },
+  "desktop": { "minimum": "1.0.0", "latest": "1.0.0" }
+}
+```
+
+`/desktop.json` and `/desktop.xml` appear on the next deploy; the landing page picks up new apps automatically.
+
+## Local build
+
+```sh
+node build.js   # writes _site/, fails on malformed versions
+```
 
 ## Hosting
 
-- GitHub Pages, `main` branch, root directory.
-- Custom domain via the `CNAME` file; DNS is a CNAME record `versions` → `aswatfzllc.github.io`.
-- `.nojekyll` disables the Jekyll build.
+- GitHub Pages via the `Build and deploy manifests` workflow (source: GitHub Actions).
+- Custom domain `versions.ziwo.io` set in Pages settings; DNS is a CNAME record `versions` → `aswatfzllc.github.io`.
 - `404.html` serves a branded page for unknown paths.
 - Content types come from file extensions — GitHub Pages offers no header control, so manifests must keep their `.json`/`.xml` extensions.
 
