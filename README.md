@@ -97,5 +97,3 @@ node build.js   # writes _site/, fails on malformed versions
 - Custom domain `versions.ziwo.io` set in Pages settings; DNS is a CNAME record `versions` → `aswatfzllc.github.io`.
 - `404.html` serves a branded page for unknown paths.
 - Content types come from file extensions — GitHub Pages offers no header control, so manifests must keep their `.json`/`.xml` extensions.
-
-Maintained by the Infrastructure Team.
