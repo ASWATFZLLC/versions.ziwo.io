@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-// Generates the deployable site into _site/ from the single source of truth: all.json
-// Derived per app: <app>.json, <app>.xml. Aggregate: all.xml. Static files copied as-is.
+// Generates the deployable site into _site/ from the single source of truth: versions.json
+// Served aggregate: all.json, all.xml. Derived per app: <app>.json, <app>.xml.
 const fs = require('fs');
 
-const all = JSON.parse(fs.readFileSync('all.json', 'utf8'));
+const all = JSON.parse(fs.readFileSync('versions.json', 'utf8'));
 
 const semver = /^\d+\.\d+\.\d+$/;
 for (const [app, v] of Object.entries(all)) {
@@ -15,9 +15,10 @@ for (const [app, v] of Object.entries(all)) {
 fs.rmSync('_site', { recursive: true, force: true });
 fs.mkdirSync('_site');
 
-for (const f of ['index.html', '404.html', 'all.json']) {
+for (const f of ['index.html', '404.html']) {
   fs.copyFileSync(f, `_site/${f}`);
 }
+fs.copyFileSync('versions.json', '_site/all.json');
 
 const xmlBody = (v, indent) =>
   `${indent}<minimum>${v.minimum}</minimum>\n${indent}<latest>${v.latest}</latest>`;

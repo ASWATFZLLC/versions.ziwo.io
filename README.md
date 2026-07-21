@@ -37,9 +37,9 @@ Example — `GET /all.json`:
 
 ## Updating versions
 
-**`all.json` is the single source of truth.** Everything else (`<app>.json`, `<app>.xml`, `all.xml`) is generated from it by `build.js` at deploy time.
+**`versions.json` (repo file, not served) is the single source of truth.** Every served endpoint (`all.json`, `all.xml`, `<app>.json`, `<app>.xml`) is generated from it by `build.js` at deploy time.
 
-1. Edit `all.json` only.
+1. Edit `versions.json` only.
 2. Commit to `main` (directly or via PR).
 3. The `Build and deploy manifests` workflow regenerates and publishes the site; live in about a minute.
 
@@ -51,7 +51,7 @@ curl -s https://versions.ziwo.io/mobile.json | jq .
 
 ## Adding a new app
 
-Add a key to `all.json`:
+Add a key to `versions.json`:
 
 ```json
 {
