@@ -6,9 +6,20 @@ const fs = require('fs');
 const all = JSON.parse(fs.readFileSync('versions.json', 'utf8'));
 
 const semver = /^\d+\.\d+\.\d+$/;
+function validateVersion(app, label, versions) {
+  if (!semver.test(versions.minimum) || !semver.test(versions.latest)) {
+    throw new Error(`${app}${label}: minimum/latest must be x.y.z, got ${JSON.stringify(versions)}`);
+  }
+}
+
 for (const [app, v] of Object.entries(all)) {
-  if (!semver.test(v.minimum) || !semver.test(v.latest)) {
-    throw new Error(`${app}: minimum/latest must be x.y.z, got ${JSON.stringify(v)}`);
+  if (app === 'schema_version') continue;
+
+  if (app === 'mobile') {
+    validateVersion(app, ' (android)', v.android);
+    validateVersion(app, ' (iOS)', v.iOS);
+  } else {
+    validateVersion(app, '', v);
   }
 }
 
