@@ -23,11 +23,15 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Generate site from all.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: latest
+
+      - name: Generate site from versions.json
         run: node build.js
 
-      - name: Validate generated JSON
-        run: for f in _site/*.json; do jq empty "$f"; done
+      - name: Validate generated endpoints
+        run: node test.js
 
       - uses: actions/configure-pages@v5
 

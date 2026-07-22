@@ -3,49 +3,391 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ziwo Version Manifest</title>
+  <title>Ziwo · Client Version Manifest</title>
+  <meta name="description" content="Machine-readable minimum and latest version requirements for Ziwo client applications. JSON and XML endpoints, updated on every release.">
+  <meta property="og:title" content="Ziwo · Client Version Manifest">
+  <meta property="og:description" content="Minimum and latest version requirements for Ziwo client apps, as JSON and XML.">
+  <meta name="theme-color" content="#f4f4f4">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23ffffff'/%3E%3Ctext x='16' y='21.5' font-family='monospace' font-size='13' fill='%23ac3378' text-anchor='middle'%3E%7Bv%7D%3C/text%3E%3C/svg%3E">
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; background: #071b2a; color: #e0e0e0; }
-    .container { text-align: center; padding: 2rem; max-width: 40rem; }
-    .logo { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
-    .logo img { height: 50px; }
-    .tagline { font-size: 1rem; color: #a0b0c0; margin-top: 0.5rem; }
-    h1 { font-size: 2rem; margin: 0 0 0.5rem; }
-    p { font-size: 1.1rem; color: #a0b0c0; }
-    a { color: #4dabf7; }
-    code { background: rgba(255,255,255,0.08); padding: 0.15rem 0.4rem; border-radius: 4px; }
-    table { margin: 1.5rem auto 0; border-collapse: collapse; }
-    th, td { padding: 0.5rem 1.25rem; border: 1px solid rgba(255,255,255,0.1); }
-    th { color: #a0b0c0; font-weight: 600; }
+    :root {
+      --bg: #f4f4f4;
+      --card: #ffffff;
+      --ink: #101828;
+      --muted: #475467;
+      --faint: #98a2b3;
+      --line: #e5e7eb;
+      --brand: #ac3378;
+      --brand-deep: #732852;
+      --brand-light: #d361ab;
+      --brand-tint: rgba(172, 51, 120, 0.08);
+      --min-ink: #475467;
+      --min-dim: #eef2f6;
+      --dark: #050b1d;
+      --dark-line: rgba(229, 231, 235, 0.14);
+      --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      background: var(--bg);
+      background-image: radial-gradient(ellipse 70% 45% at 50% -12%, rgba(172, 51, 120, 0.06), transparent);
+      color: var(--ink);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--brand); text-decoration: none; }
+    a:hover { color: var(--brand-deep); text-decoration: underline; }
+    :focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 4px; }
+    code, .mono { font-family: var(--mono); }
+
+    .wrap { max-width: 66rem; margin: 0 auto; padding: 0 1.25rem 4rem; }
+
+    /* Top bar */
+    header {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      padding: 1.1rem 0; border-bottom: 1px solid var(--line);
+    }
+    .brand { display: flex; align-items: baseline; gap: 0.8rem; }
+    .brand img { height: 30px; transform: translateY(7px); }
+    .brand .wordmark { display: none; font-weight: 700; letter-spacing: 0.08em; color: #414143; }
+    .brand .crumb { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); }
+    .live { display: flex; align-items: center; gap: 0.45rem; font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }
+    .live .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--brand); box-shadow: 0 0 6px var(--brand-light); }
+
+    /* Hero */
+    .hero { padding: 3.2rem 0 2.4rem; }
+    .hero h1 { font-size: clamp(1.7rem, 4.5vw, 2.5rem); line-height: 1.15; margin: 0 0 0.7rem; letter-spacing: -0.015em; }
+    .hero h1 .dim { color: var(--muted); font-weight: 400; }
+    .hero p { max-width: 44rem; color: var(--muted); margin: 0 0 1.4rem; font-size: 1.02rem; }
+    .quickstart {
+      display: flex; align-items: center; gap: 0.7rem; width: fit-content; max-width: 100%;
+      background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(16, 24, 40, 0.06);
+      padding: 0.6rem 0.75rem 0.6rem 0.95rem; font-family: var(--mono); font-size: 0.85rem;
+    }
+    .quickstart .cmd { overflow-x: auto; white-space: nowrap; scrollbar-width: none; min-width: 0; }
+    .quickstart .prompt { color: var(--faint); user-select: none; }
+    .quickstart .url { color: var(--brand); }
+
+    button.copy {
+      flex-shrink: 0; font-family: var(--mono); font-size: 0.72rem; cursor: pointer;
+      color: var(--muted); background: var(--bg); border: 1px solid var(--line);
+      border-radius: 6px; padding: 0.28rem 0.6rem; transition: color 0.15s, border-color 0.15s;
+    }
+    button.copy:hover { color: var(--brand); border-color: var(--brand); }
+    button.copy.done { color: var(--brand); border-color: var(--brand); }
+
+    /* Two-pane: human view / machine view */
+    .panes { display: grid; grid-template-columns: 1fr; gap: 1.1rem; align-items: start; }
+    @media (min-width: 880px) { .panes { grid-template-columns: 5fr 4fr; } }
+    .panes > section { min-width: 0; }
+
+    .pane-label {
+      font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--faint); margin: 0 0 0.6rem;
+    }
+
+    .card {
+      background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(16, 24, 40, 0.06);
+      padding: 1.1rem 1.2rem 1.2rem; margin-bottom: 1.1rem;
+    }
+    .card h2 { margin: 0 0 0.8rem; font-size: 1.05rem; font-family: var(--mono); font-weight: 600; }
+    .card table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .card th {
+      text-align: left; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--faint); font-weight: 500;
+      padding: 0 0 0.45rem; border-bottom: 1px solid var(--line);
+    }
+    .card td { padding: 0.55rem 0.6rem 0.55rem 0; border-bottom: 1px solid var(--line); }
+    .card tr:last-child td { border-bottom: none; padding-bottom: 0.2rem; }
+    .platform { font-family: var(--mono); color: var(--ink); }
+    .ver { font-family: var(--mono); font-size: 0.85rem; white-space: nowrap; padding: 0.14rem 0.55rem; border-radius: 5px; }
+    .ver.min { color: var(--min-ink); background: var(--min-dim); }
+    .ver.latest { color: var(--brand); background: var(--brand-tint); }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.95rem; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--mono); font-size: 0.78rem;
+      background: var(--bg); border: 1px solid var(--line); border-radius: 6px;
+      padding: 0.3rem 0.35rem 0.3rem 0.65rem;
+    }
+    .chip button.copy { padding: 0.12rem 0.45rem; background: var(--card); }
+
+    /* Terminal (machine view) — dark, like ziwo.io's dark sections */
+    .terminal {
+      background: var(--dark); border-radius: 10px; overflow: hidden;
+      box-shadow: 0 4px 16px rgba(16, 24, 40, 0.18);
+    }
+    .term-head {
+      display: flex; align-items: center; gap: 0.55rem; padding: 0.6rem 0.9rem;
+      background: linear-gradient(90deg, var(--brand-deep), var(--brand));
+    }
+    .term-head .b { width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, 0.22); }
+    .term-head .cmdline { margin-left: 0.4rem; font-family: var(--mono); font-size: 0.75rem; color: rgba(255, 255, 255, 0.9); }
+    .terminal pre {
+      margin: 0; padding: 1rem 1.1rem 1.2rem; overflow-x: auto;
+      font-family: var(--mono); font-size: 0.82rem; line-height: 1.65; color: #8ea0b5;
+    }
+    .terminal .k { color: #e5e7eb; }
+    .terminal .ver { padding: 0.05rem 0.3rem; }
+    .terminal .ver.min { color: #cdd5df; background: rgba(205, 213, 223, 0.13); }
+    .terminal .ver.latest { color: #d361ab; background: rgba(211, 97, 171, 0.16); }
+    .terminal .cursor {
+      display: inline-block; width: 0.55em; height: 1.05em; vertical-align: text-bottom;
+      background: var(--brand-light); margin-left: 2px;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .terminal .cursor { animation: blink 1.1s steps(1) infinite; }
+      @keyframes blink { 50% { opacity: 0; } }
+      .rise { animation: rise 0.45s ease both; }
+      @keyframes rise { from { opacity: 0; transform: translateY(6px); } }
+    }
+
+    /* Endpoint index */
+    .endpoints { margin-top: 2.6rem; }
+    .endpoints h2 { font-size: 1.15rem; margin: 0 0 0.3rem; }
+    .endpoints .sub { color: var(--muted); font-size: 0.92rem; margin: 0 0 1rem; }
+    .endpoints .tablewrap {
+      overflow-x: auto; border: 1px solid var(--line); border-radius: 10px;
+      background: var(--card); box-shadow: 0 1px 3px rgba(16, 24, 40, 0.06);
+    }
+    .endpoints table { width: 100%; border-collapse: collapse; font-size: 0.88rem; min-width: 34rem; }
+    .endpoints th {
+      text-align: left; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--faint); font-weight: 500;
+      background: var(--bg); padding: 0.6rem 1rem; border-bottom: 1px solid var(--line);
+    }
+    .endpoints td { padding: 0.55rem 1rem; border-bottom: 1px solid var(--line); }
+    .endpoints tr:last-child td { border-bottom: none; }
+    .endpoints td.actions { text-align: right; }
+
+    .note {
+      margin: 1.1rem 0 0; padding: 0.75rem 1rem; border: 1px solid rgba(172, 51, 120, 0.3);
+      border-radius: 8px; background: var(--brand-tint); color: var(--brand-deep); font-size: 0.9rem;
+    }
+    [hidden] { display: none !important; }
+
+    footer {
+      margin-top: 3rem; padding-top: 1.2rem; border-top: 1px solid var(--line);
+      display: flex; flex-wrap: wrap; gap: 0.4rem 1.6rem;
+      font-family: var(--mono); font-size: 0.75rem; color: var(--faint);
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="logo"><img src="https://www.ziwo.io/assets/footer/english-logo.svg" alt="Ziwo" onerror="this.style.display='none'"><p class="tagline">Simply, Talk to Your Clients</p></div>
-    <h1>Version Manifest</h1>
-    <p>Machine-readable app version requirements for Ziwo clients.</p>
-    <p>All apps: <a href="/all.json"><code>all.json</code></a> · <a href="/all.xml"><code>all.xml</code></a></p>
-    <p id="apps" hidden>Per app: <span></span></p>
-    <table id="versions" hidden>
-      <thead><tr><th>App</th><th>Minimum</th><th>Latest</th></tr></thead>
-      <tbody></tbody>
-    </table>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <img src="https://www.ziwo.io/assets/navbar/english-logo.svg" alt="Ziwo"
+             onerror="this.hidden=true;this.parentElement.querySelector('.wordmark').style.display='inline'">
+        <span class="wordmark">ZIWO</span>
+        <span class="crumb">/ versions</span>
+      </div>
+      <div class="live"><span class="dot"></span>serving</div>
+    </header>
+
+    <section class="hero">
+      <h1>Client version manifest <span class="dim">— minimum &amp; latest, per app</span></h1>
+      <p>Ziwo client applications poll this site to learn the oldest version still allowed to run
+        and the newest version available. Static JSON and XML, served from GitHub Pages,
+        regenerated on every release.</p>
+      <div class="quickstart">
+        <span class="cmd"><span class="prompt">$</span> curl -s <span class="url">https://versions.ziwo.io/all.json</span></span>
+        <button class="copy" data-copy="curl -s https://versions.ziwo.io/all.json">copy</button>
+      </div>
+    </section>
+
+    <p class="note" id="fetch-error" hidden>Couldn’t load live data in this browser — the endpoint links below still work.</p>
+
+    <div class="panes">
+      <section aria-label="Current versions">
+        <p class="pane-label">Human view · current versions</p>
+        <div id="apps" aria-live="polite"></div>
+      </section>
+
+      <section aria-label="Raw manifest">
+        <p class="pane-label">Machine view · GET /all.json</p>
+        <div class="terminal rise">
+          <div class="term-head">
+            <span class="b"></span><span class="b"></span><span class="b"></span>
+            <span class="cmdline">curl versions.ziwo.io/all.json</span>
+          </div>
+          <pre id="raw" aria-label="Contents of all.json">loading…<span class="cursor"></span></pre>
+        </div>
+      </section>
+    </div>
+
+    <section class="endpoints">
+      <h2>Endpoints</h2>
+      <p class="sub">Content types follow file extensions. Aggregate endpoints cover every app;
+        per-app endpoints appear automatically when an app is added to <code>versions.json</code>.</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Endpoint</th><th>Format</th><th>Scope</th><th aria-label="Actions"></th></tr></thead>
+          <tbody id="endpoint-rows">
+            <tr><td><a href="/all.json"><code>/all.json</code></a></td><td>JSON</td><td>All apps + schema version</td>
+              <td class="actions"><button class="copy" data-copy-path="/all.json">copy url</button></td></tr>
+            <tr><td><a href="/all.xml"><code>/all.xml</code></a></td><td>XML</td><td>All apps</td>
+              <td class="actions"><button class="copy" data-copy-path="/all.xml">copy url</button></td></tr>
+            <tr><td><a href="/meta.json"><code>/meta.json</code></a></td><td>JSON</td><td>Schema version, build time, commit</td>
+              <td class="actions"><button class="copy" data-copy-path="/meta.json">copy url</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer>
+      <span id="meta-schema">schema —</span>
+      <span id="meta-updated">updated —</span>
+      <span>source of truth: <code>versions.json</code></span>
+      <span>GitHub Pages</span>
+    </footer>
   </div>
+
   <script>
-    fetch('/all.json').then(r => r.json()).then(data => {
-      const tbody = document.querySelector('#versions tbody');
-      const links = [];
-      for (const [app, v] of Object.entries(data)) {
-        const row = tbody.insertRow();
-        row.insertCell().textContent = app;
-        row.insertCell().textContent = v.minimum;
-        row.insertCell().textContent = v.latest;
-        links.push(`<a href="/${app}.json"><code>${app}.json</code></a> · <a href="/${app}.xml"><code>${app}.xml</code></a>`);
+    'use strict';
+    // Works on the live domain and local previews; file:// falls back to the canonical host.
+    const BASE = location.protocol.startsWith('http') ? location.origin : 'https://versions.ziwo.io';
+    const $ = (sel, el = document) => el.querySelector(sel);
+    const el = (tag, cls, text) => {
+      const n = document.createElement(tag);
+      if (cls) n.className = cls;
+      if (text !== undefined) n.textContent = text;
+      return n;
+    };
+
+    // --- copy buttons (event delegation covers generated rows) ---
+    document.addEventListener('click', async (e) => {
+      const btn = e.target.closest('button.copy');
+      if (!btn) return;
+      const text = btn.dataset.copy || BASE + btn.dataset.copyPath;
+      try {
+        await navigator.clipboard.writeText(text);
+        const old = btn.textContent;
+        btn.textContent = 'copied';
+        btn.classList.add('done');
+        setTimeout(() => { btn.textContent = old; btn.classList.remove('done'); }, 1300);
+      } catch {
+        prompt('Copy:', text); // clipboard API unavailable (e.g. file://): show selectable text
       }
-      document.querySelector('#apps span').innerHTML = links.join(' · ');
-      document.getElementById('apps').hidden = false;
-      document.getElementById('versions').hidden = false;
-    }).catch(() => {});
+    });
+
+    const isLeaf = (v) => v && typeof v === 'object' && ('minimum' in v || 'latest' in v);
+
+    function appCard(app, node) {
+      const card = el('section', 'card rise');
+      card.append(el('h2', null, app));
+      const rows = isLeaf(node) ? [['all platforms', node]] : Object.entries(node);
+
+      const table = el('table');
+      const thead = el('thead');
+      const hr = el('tr');
+      for (const h of ['Platform', 'Minimum', 'Latest']) hr.append(el('th', null, h));
+      thead.append(hr);
+      const tbody = el('tbody');
+      for (const [platform, v] of rows) {
+        const tr = el('tr');
+        tr.append(el('td', 'platform', platform));
+        const min = el('td'); min.append(el('span', 'ver min', v.minimum)); tr.append(min);
+        const lat = el('td'); lat.append(el('span', 'ver latest', v.latest)); tr.append(lat);
+        tbody.append(tr);
+      }
+      table.append(thead, tbody);
+      card.append(table);
+
+      const chips = el('div', 'chips');
+      for (const ext of ['json', 'xml']) {
+        const chip = el('span', 'chip');
+        const a = el('a', null, `/${app}.${ext}`);
+        a.href = `/${app}.${ext}`;
+        const b = el('button', 'copy', 'copy');
+        b.dataset.copyPath = `/${app}.${ext}`;
+        b.setAttribute('aria-label', `Copy URL for ${app}.${ext}`);
+        chip.append(a, b);
+        chips.append(chip);
+      }
+      card.append(chips);
+      return card;
+    }
+
+    function endpointRow(path, format, scope) {
+      const tr = el('tr');
+      const td = el('td');
+      const a = el('a');
+      a.href = path;
+      a.append(el('code', null, path));
+      td.append(a);
+      tr.append(td, el('td', null, format), el('td', null, scope));
+      const actions = el('td', 'actions');
+      const b = el('button', 'copy', 'copy url');
+      b.dataset.copyPath = path;
+      actions.append(b);
+      tr.append(actions);
+      return tr;
+    }
+
+    // Syntax-coloured render of the manifest; version values keep their semantic colour.
+    function renderRaw(manifest) {
+      const pre = $('#raw');
+      pre.textContent = '';
+      const walk = (obj, indent) => {
+        const entries = Object.entries(obj);
+        entries.forEach(([k, v], i) => {
+          const comma = i < entries.length - 1 ? ',' : '';
+          pre.append(`${indent}`, keySpan(k), ': ');
+          if (typeof v === 'string') {
+            const cls = k === 'minimum' ? 'ver min' : k === 'latest' ? 'ver latest' : 'k';
+            pre.append(el('span', cls, `"${v}"`), `${comma}\n`);
+          } else {
+            pre.append('{\n');
+            walk(v, indent + '  ');
+            pre.append(`${indent}}${comma}\n`);
+          }
+        });
+      };
+      const keySpan = (k) => el('span', 'k', `"${k}"`);
+      pre.append('{\n');
+      walk(manifest, '  ');
+      pre.append('}');
+      pre.append(el('span', 'cursor'));
+    }
+
+    fetch('/all.json')
+      .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then((manifest) => {
+        renderRaw(manifest);
+        const { schema_version, ...apps } = manifest;
+        const container = $('#apps');
+        const rows = $('#endpoint-rows');
+        Object.entries(apps).forEach(([app, node], i) => {
+          const card = appCard(app, node);
+          card.style.animationDelay = `${i * 70}ms`;
+          container.append(card);
+          rows.append(
+            endpointRow(`/${app}.json`, 'JSON', `${app} only`),
+            endpointRow(`/${app}.xml`, 'XML', `${app} only`)
+          );
+        });
+        if (schema_version) $('#meta-schema').textContent = `schema ${schema_version}`;
+      })
+      .catch(() => {
+        $('#fetch-error').hidden = false;
+        $('#raw').textContent = 'live preview unavailable';
+      });
+
+    fetch('/meta.json')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((meta) => {
+        if (!meta || !meta.generated_at) return;
+        const when = new Date(meta.generated_at).toISOString().replace('T', ' ').slice(0, 16) + ' UTC';
+        $('#meta-updated').textContent = `updated ${when}` + (meta.commit ? ` · ${meta.commit}` : '');
+      })
+      .catch(() => {});
   </script>
 </body>
 </html>
