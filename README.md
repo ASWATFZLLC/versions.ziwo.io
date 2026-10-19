@@ -77,7 +77,7 @@ curl -s https://versions.ziwo.io/mobile.json | jq .
 
 `build.js` fails the deploy if any of these rules are broken:
 
-- Versions must be exactly `x.y.z` and `minimum` must not exceed `latest`.
+- Versions must be numeric `x.y` / `x.y.z` or a lowercase ref name such as `master`; for numeric pairs `minimum` must not exceed `latest`.
 - App/platform keys must match `[a-z][a-z0-9_-]*`, not start with `xml`, and not collide
   with reserved names (`all`, `index`, `meta`, `schema_version`) — keys become URLs and XML element names.
 - A leaf must contain exactly `minimum` and `latest`; groups must not be empty.

@@ -80,8 +80,10 @@ for (const f of ['index.html', '404.html']) assert.ok(fs.existsSync(site(f)), `$
 // --- Malformed manifests must be rejected ------------------------------------
 const leaf = { minimum: '1.0.0', latest: '2.0.0' };
 const bad = {
-  'bad semver': { schema_version: '1.0.0', app: { minimum: '1.0', latest: '2.0.0' } },
+  'bad version': { schema_version: '1.0.0', app: { minimum: 'v1.0.0', latest: '2.0.0' } },
+  'xml-unsafe version': { schema_version: '1.0.0', app: { minimum: 'a<b', latest: 'a<b' } },
   'minimum newer than latest': { schema_version: '1.0.0', app: { minimum: '3.0.0', latest: '2.0.0' } },
+  'minimum newer than latest (x.y)': { schema_version: '1.0.0', app: { minimum: '3.1', latest: '3.0.9' } },
   'uppercase key': { schema_version: '1.0.0', App: leaf },
   'reserved app name': { schema_version: '1.0.0', all: leaf },
   'extra leaf key': { schema_version: '1.0.0', app: { ...leaf, beta: '9.9.9' } },

@@ -11,6 +11,10 @@
     }
   },
   "ziwo_instance": {
+    "stark": {
+      "minimum": "master",
+      "latest": "master"
+    },
     "banshee": {
       "minimum": "1.10.11",
       "latest": "1.10.11"
@@ -50,6 +54,10 @@
     "postgres_exporter": {
       "minimum": "0.16.0",
       "latest": "0.16.0"
+    },
+    "ubuntu": {
+      "minimum": "22.04.5",
+      "latest": "22.04.5"
     }
   },
   "ziwo_bgw": {
@@ -60,6 +68,10 @@
     "asterisk_exporter": {
       "minimum": "4.1.0",
       "latest": "4.1.0"
+    },
+    "ubuntu": {
+      "minimum": "22.04",
+      "latest": "22.04"
     }
   }
 }
