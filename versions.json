@@ -9,5 +9,81 @@
       "minimum": "1.9.6",
       "latest": "1.9.7"
     }
+  },
+  "ziwo_instance": {
+    "stark": {
+      "minimum": "master",
+      "latest": "master"
+    },
+    "banshee": {
+      "minimum": "1.10.11",
+      "latest": "1.10.11"
+    },
+    "webhook": {
+      "minimum": "master",
+      "latest": "master"
+    },
+    "zdial": {
+      "minimum": "master",
+      "latest": "master"
+    },
+    "yoda": {
+      "minimum": "main",
+      "latest": "main"
+    },
+    "nginx": {
+      "minimum": "1.18.0",
+      "latest": "1.18.0"
+    },
+    "redis": {
+      "minimum": "6.0.16",
+      "latest": "6.0.16"
+    },
+    "postgresql": {
+      "minimum": "9.6.24",
+      "latest": "9.6.24"
+    },
+    "otelcol": {
+      "minimum": "0.162.0",
+      "latest": "0.162.0"
+    },
+    "freeswitch_exporter": {
+      "minimum": "4.1.0",
+      "latest": "4.1.0"
+    },
+    "node_exporter": {
+      "minimum": "1.12.1",
+      "latest": "1.12.1"
+    },
+    "nginx_exporter": {
+      "minimum": "1.5.1",
+      "latest": "1.5.1"
+    },
+    "redis_exporter": {
+      "minimum": "1.88.0",
+      "latest": "1.88.0"
+    },
+    "postgres_exporter": {
+      "minimum": "0.16.0",
+      "latest": "0.16.0"
+    },
+    "ubuntu": {
+      "minimum": "22.04.5",
+      "latest": "22.04.5"
+    }
+  },
+  "ziwo_bgw": {
+    "asterisk": {
+      "minimum": "20.9.2",
+      "latest": "20.9.2"
+    },
+    "asterisk_exporter": {
+      "minimum": "4.1.0",
+      "latest": "4.1.0"
+    },
+    "ubuntu": {
+      "minimum": "22.04",
+      "latest": "22.04"
+    }
   }
 }
