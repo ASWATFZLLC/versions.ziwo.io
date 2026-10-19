@@ -10,7 +10,7 @@
       "latest": "1.9.7"
     }
   },
-  "ziwoinstance": {
+  "ziwo_instance": {
     "banshee": {
       "minimum": "1.10.11",
       "latest": "1.10.11"
@@ -50,6 +50,16 @@
     "postgres_exporter": {
       "minimum": "0.16.0",
       "latest": "0.16.0"
+    }
+  },
+  "ziwo_bgw": {
+    "asterisk": {
+      "minimum": "20.9.2",
+      "latest": "20.9.2"
+    },
+    "asterisk_exporter": {
+      "minimum": "4.1.0",
+      "latest": "4.1.0"
     }
   }
 }
