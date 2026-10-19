@@ -19,6 +19,18 @@
       "minimum": "1.10.11",
       "latest": "1.10.11"
     },
+    "webhook": {
+      "minimum": "master",
+      "latest": "master"
+    },
+    "zdial": {
+      "minimum": "master",
+      "latest": "master"
+    },
+    "yoda": {
+      "minimum": "main",
+      "latest": "main"
+    },
     "nginx": {
       "minimum": "1.18.0",
       "latest": "1.18.0"
