@@ -3,11 +3,11 @@
   "mobile": {
     "android": {
       "minimum": "1.9.6",
-      "latest": "1.9.6"
+      "latest": "1.9.7"
     },
     "ios": {
       "minimum": "1.9.6",
-      "latest": "1.9.6"
+      "latest": "1.9.7"
     }
   }
 }
