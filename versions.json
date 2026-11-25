@@ -2,11 +2,11 @@
   "schema_version": "1.0.0",
   "mobile": {
     "android": {
-      "minimum": "1.9.6",
+      "minimum": "1.13.0",
       "latest": "1.13.0"
     },
     "ios": {
-      "minimum": "1.9.6",
+      "minimum": "1.13.0",
       "latest": "1.13.0"
     }
   },
