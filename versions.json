@@ -16,8 +16,8 @@
       "latest": "master"
     },
     "banshee": {
-      "minimum": "1.10.11",
-      "latest": "1.10.11"
+      "minimum": "1.10.11.2",
+      "latest": "1.10.11.4"
     },
     "webhook": {
       "minimum": "master",
@@ -45,19 +45,19 @@
     },
     "otelcol": {
       "minimum": "0.162.0",
-      "latest": "0.162.0"
+      "latest": "0.165.0"
     },
     "freeswitch_exporter": {
       "minimum": "4.1.0",
-      "latest": "4.1.0"
+      "latest": "4.5.1"
     },
     "node_exporter": {
       "minimum": "1.12.1",
-      "latest": "1.12.1"
+      "latest": "1.13.1"
     },
     "nginx_exporter": {
       "minimum": "1.5.1",
-      "latest": "1.5.1"
+      "latest": "1.5.3"
     },
     "redis_exporter": {
       "minimum": "1.88.0",
@@ -79,7 +79,7 @@
     },
     "asterisk_exporter": {
       "minimum": "4.1.0",
-      "latest": "4.1.0"
+      "latest": "4.4.2"
     },
     "ubuntu": {
       "minimum": "22.04",
