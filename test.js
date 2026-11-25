@@ -84,6 +84,8 @@ const bad = {
   'xml-unsafe version': { schema_version: '1.0.0', app: { minimum: 'a<b', latest: 'a<b' } },
   'minimum newer than latest': { schema_version: '1.0.0', app: { minimum: '3.0.0', latest: '2.0.0' } },
   'minimum newer than latest (x.y)': { schema_version: '1.0.0', app: { minimum: '3.1', latest: '3.0.9' } },
+  'minimum newer than latest (x.y.z.w)': { schema_version: '1.0.0', app: { minimum: '1.0.0.2', latest: '1.0.0.1' } },
+  'five-part version': { schema_version: '1.0.0', app: { minimum: '1.0.0.0.1', latest: '1.0.0.0.1' } },
   'uppercase key': { schema_version: '1.0.0', App: leaf },
   'reserved app name': { schema_version: '1.0.0', all: leaf },
   'extra leaf key': { schema_version: '1.0.0', app: { ...leaf, beta: '9.9.9' } },
