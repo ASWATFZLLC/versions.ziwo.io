@@ -4,7 +4,7 @@
 // versions.json shape:
 //   { "schema_version": "x.y.z", "<app>": <node>, ... }
 //   <node> is either a leaf {"minimum": <version>, "latest": <version>}, <version> being
-//   numeric "x.y" / "x.y.z" or a lowercase ref name such as "master",
+//   numeric "x.y" / "x.y.z" / "x.y.z.w" or a lowercase ref name such as "master",
 //   or a group of platform keys, e.g. {"android": <leaf>, "ios": <leaf>}.
 //
 // Served endpoints: all.json (versions.json verbatim), all.xml, meta.json,
@@ -13,8 +13,8 @@
 const fs = require('fs');
 
 const SEMVER = /^\d+\.\d+\.\d+$/; // schema_version only
-// Leaf versions: numeric "x.y" / "x.y.z" (ordered) or a ref name such as a git branch (unordered).
-const NUMERIC = /^\d+\.\d+(\.\d+)?$/;
+// Leaf versions: numeric "x.y" / "x.y.z" / "x.y.z.w" (ordered) or a ref name such as a git branch (unordered).
+const NUMERIC = /^\d+\.\d+(\.\d+){0,2}$/;
 const REF = /^[a-z][a-z0-9_-]*$/;
 // Keys become XML element names and URL path segments — restrict to safe slugs.
 // XML names must not start with a digit or the literal string "xml".
@@ -28,7 +28,7 @@ function fail(msg) {
 
 function compareVersion(a, b) {
   const [x, y] = [a, b].map((v) => v.split('.').map(Number));
-  for (let i = 0; i < 3; i++) if ((x[i] ?? 0) !== (y[i] ?? 0)) return (x[i] ?? 0) - (y[i] ?? 0);
+  for (let i = 0; i < 4; i++) if ((x[i] ?? 0) !== (y[i] ?? 0)) return (x[i] ?? 0) - (y[i] ?? 0);
   return 0;
 }
 
@@ -41,7 +41,7 @@ function validateLeaf(path, v) {
   }
   for (const k of ['minimum', 'latest']) {
     if (typeof v[k] !== 'string' || !(NUMERIC.test(v[k]) || REF.test(v[k]))) {
-      fail(`${path}.${k}: must be "x.y", "x.y.z" or a ref name like "master", got ${JSON.stringify(v[k])}`);
+      fail(`${path}.${k}: must be "x.y", "x.y.z", "x.y.z.w" or a ref name like "master", got ${JSON.stringify(v[k])}`);
     }
   }
   if (NUMERIC.test(v.minimum) && NUMERIC.test(v.latest) && compareVersion(v.minimum, v.latest) > 0) {
